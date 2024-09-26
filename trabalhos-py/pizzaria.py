@@ -107,12 +107,12 @@ def EscolheMudanca(lista) -> None:
         sabor = lista[index][0].capitalize()
         tamanho = lista[index][1].capitalize()
         indice = index + 1
-        print(f"Você selecionou o item {indice}> {sabor} ({tamanho})")
+        print(f"\nVocê selecionou o item {indice}> {sabor} ({tamanho})")
         while True:
             try:
                 escolha = int(input("\n Você deseja: 1 - Editar sabor  | 2 - Editar Tamanho  | 3 - Remover   "))
                 if escolha not in [1, 2, 3]:
-                    raise ValueError(f"Valor inválido. Por favor digite um número válido:  1 - Editar sabor  | 2 - Editar Tamanho  | 3 - Remover   ")
+                    raise ValueError(f"\nValor inválido.")
                 break
             except ValueError as e:
                 print(e)
@@ -129,6 +129,7 @@ def EscolheMudanca(lista) -> None:
             case _:
                 print()
         MontaNota(lista)
+        continuar = ContinuarEditando(lista)
 
 def ContinuarEditando(lista) -> None:
     continuar = True
@@ -170,17 +171,21 @@ def MontaNota(lista) -> float:
     print(f'\nValor Total = R${valorTotal}\n')
     return valorTotal
 
-def MetodoPagamento(valor) -> None:
-    LimpaTela()
-    print(f'Seu pedido se encontra no valor de R${valor}.')
+def EscolheMetodo() -> str:
     while True:
         try:
             metodo = str.lower(input('\nDigite o método de pagamento desejado. (PIX, Dinheiro, Cartão, Vale)   '))
             if metodo not in ['pix', 'dinheiro', 'cartao', 'cartão', 'vale']:
-                raise ValueError("Entrada inválida. Por favor digite um dos métodos possíveis: (PIX, Dinheiro, Cartão, Vale)\n")
+                raise ValueError("Entrada inválida. Por favor digite um dos métodos disponiveis.\n")
             break
         except ValueError as e:
             print(e)
+    return metodo
+
+def MetodoPagamento(valor) -> None:
+    LimpaTela()
+    print(f'Seu pedido se encontra no valor de R${valor}.')
+    metodo = EscolheMetodo()
     LimpaTela()
     match metodo:
         case 'pix': 
@@ -194,7 +199,7 @@ def MetodoPagamento(valor) -> None:
         case _:
             input('\nPressione qualquer tecla para retornar ao Menu Principal...')
     print('Compra concluída. Agora basta aguardar!')
-    input('\nPressione qualquer tecla para retornar ao Menu Principal...')
+    input('\n\nPressione qualquer tecla para retornar ao Menu Principal...')
 
 def PagamentoDinheiro(valor) -> None:
     print(f'Seu pedido se encontra no valor de R${valor}.')
@@ -227,7 +232,7 @@ def PagamentoCartao(valor) -> None:
         try:
             card = str.lower(input('Selecione o tipo de cartão desejado: (Débito, Crédito, Vale)'))
             if card not in ['debito', 'débito', 'credito', 'crédito', 'vale']:
-                raise ValueError("Entrada inválida. Por favor digite um dos métodos disponíveis: Débito, Crédito, Vale")
+                raise ValueError("Entrada inválida. Por favor digite um dos métodos disponíveis.")
             break
         except ValueError as e:
             print(e)
@@ -247,17 +252,16 @@ def ConfirmaCompra() -> bool:
     return confirmado
 
 def NaoConfirmaCompra(lista) -> None:
-    print('Você escolheu não confirmar a compra.')
+    print('\nVocê escolheu não confirmar o Pedido.')
     while True:
         try:
-            escolha = str.lower(input('\nDeseja editar ou cancelar o pedido? (E / C)  '))
-            if escolha not in ['e', 'c']:
-                raise ValueError("Entrada inválida. Por favor digite 'E' para EDITAR ou 'C' para CANCELAR\n")
+            escolha = str.lower(input('\nDeseja editar ou cancelar o pedido? (Editar / Cancelar)  '))
+            if escolha not in ['editar', 'cancelar']:
+                raise ValueError("Entrada inválida. Por favor digite 'EDITAR' ou 'CANCELAR'.\n")
             break
         except ValueError as e:
             print(e)
-    if escolha == 'e':
-        print('Você escolheu editar seu pedido')
+    if escolha == 'editar':
         EditarPedido(lista)
     else:
         print('Compra Cancelada. :(')
