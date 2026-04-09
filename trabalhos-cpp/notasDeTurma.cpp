@@ -1,13 +1,17 @@
+/* Escreva um algoritmo que solicite ao usuário Nome, Idade, Sexo e três notas de N alunos em uma turma e ao final, apresente: 
+1) total de alunos cadastrados
+2) a media das idades dos alunos aprovados/reprovados da turma
+3) gerar um relatório de alunos aprovados/reprovados na turma
+
+Tarefas para semana que vem 02/04
+1) Implementar regras de negócio para validação dos dados
+	1.1) qtdProva 1 a 10 -
+	1.2) Idade: 17 a 115 -
+	1.3) Notas 0 a 10
+*/
+
 #include <stdio.h>
 
-/*Escreva um algoritmo que solicite ao usuario Nome, Idade, Sexo e tres notas de N alunos em uma turma e ao final apresente:
-    1) Total de alunos cadastrados
-    2) A media das idades dos alunos aprovados/reprovados da turma
-    3) Gerar um relatório de alunos aprovados/reprovados na turma
-
-    Tarefas para 2 de Abril: 
-        1) Implementar regras de negócio para validação dos dados;
-*/
 
 struct Aluno{
     char nome[30];
@@ -18,10 +22,11 @@ struct Aluno{
 };
 
 int main(){
-    int qtdAlunos, qtdNotas, mediaAprovacao;
-    
+    int qtdAlunos, qtdNotas, mediaAprovacao, masc = 0, fem = 0, aprovM = 0, aprovF = 0, aprovados;
+    float media = 0, mediaTurma, mediaAprovados, notasM = 0, notasF = 0, notasMAprov = 0, notasFAprov = 0;
+        
     struct Aluno Turma[100];
-    
+
     printf("Informe a quantidade de alunos: ");
     scanf("%i", &qtdAlunos);
 
@@ -36,7 +41,7 @@ int main(){
     for (int i = 1; i <= qtdAlunos; i++){
         printf("Informe informe o nome do %iº Aluno: ", i);
         scanf("%s", &Turma[i].nome);
-        Turma[i].notas[0] = 0;
+        Turma[i].notas[0] = media;
         do{
             printf("Informe informe a idade de %s: [min: 16 | max: 99] ", Turma[i].nome);
             scanf("%i", &Turma[i].idade);
@@ -53,22 +58,50 @@ int main(){
                 scanf("%f", &Turma[i].notas[n]);
             }while(Turma[i].notas[n] < 0 or Turma[i].notas[n] > 10);
 
-            Turma[i].notas[0] += Turma[i].notas[n];
-            printf("nota: %0.2f |total: %0.2f \n",Turma[i].notas[n], Turma[i].notas[0]);
+            media += Turma[i].notas[n];
+            printf("nota #%i: %0.2f |total: %0.2f \n", n, Turma[i].notas[n], media);
         }
         
-        Turma[i].notas[0] = Turma[i].notas[0] / qtdNotas;
-        printf("Media de %s: %0.2f \n", Turma[i].nome, Turma[i].notas[0]);
+        media = media / qtdNotas;
+        printf("Media de %s: %0.2f \n", Turma[i].nome, media);
 
-        if (Turma[i].notas[0] >= mediaAprovacao) Turma[i].aprovado = true;
+        if(media >= mediaAprovacao) Turma[i].aprovado = true;
 
-    }    
+        if(Turma[i].sexo == 'M' or 'm'){
+            masc++;
+            notasM += media;
+            if(Turma[i].aprovado){
+                aprovM++;
+                notasMAprov += media;
+            }
+        }else{
+            fem++;
+            notasF += media;
+            if(Turma[i].aprovado){
+                aprovF++;
+                notasFAprov += media;
+            }
+        }
+    }
 
-    printf("\n RELATORIO DE APROVADOS\n");
+    aprovados = aprovM + aprovF;
+    mediaTurma = (notasM + notasF) / qtdAlunos;
+    mediaAprovados = (notasMAprov + notasFAprov) / aprovados;
+
+    printf("\n RELATORIO FINAL\n");
+
+    printf("\n QUANTIDADE TOTAL DE ALUNOS: %i", qtdAlunos);
+    printf("\n SEXO: MASCULINO %i | FEMININO %i", masc, fem);
+    printf("\n MEDIA DE APROVACAO: %0.2f | MEDIA DA TURMA: %0.2f",mediaAprovacao, mediaTurma);
+    printf("\n TOTAL DE APROVADOS: %i, isto é %0.2f%% da turma | MEDIA DOS APROVADOS: %0.2f", aprovados, 100 * aprovados / qtdAlunos, mediaAprovados);
+    printf("\n MEDIA MASCULINA: %0.2f | MEDIA FEMININA: %0.2f", notasM / masc, notasF / fem);
+    printf("\n MEDIA MASCULINA APROVADOS: %0.2f | MEDIA FEMININA APROVADOS: %0.2f", notasMAprov / aprovM, notasFAprov / aprovF);
+
+    printf("\n LISTA FINAL\n");
 
     for(int i=1; i<= qtdAlunos; i++){
-        if(Turma[i].aprovado) printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Aprovado", i, Turma[i].nome, Turma[i].notas[0]);
-        else printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Reprovado", i, Turma[i].nome, Turma[i].notas[0]);
+        if(Turma[i].aprovado) printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Aprovado", i, Turma[i].nome, media);
+        else printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Reprovado", i, Turma[i].nome, media);
     }
     
     printf("\n\nFIM\n");
