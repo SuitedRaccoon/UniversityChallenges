@@ -1,2 +1,2 @@
-# University Challenges
-Repositório onde estudos, trabalhos ou desafios da faculdade são armazenados em branches noemadas de acordo com a linguagem utilizada
+# Repositório de C + +
+Repositório onde manterei trabalhos da faculdade e resoluções de exercícios feitos em C/C++
