@@ -19,9 +19,9 @@ struct Aluno{
 
 int main(){
     int qtdAlunos, qtdNotas, mediaAprovacao;
+    
     struct Aluno Turma[100];
     
-
     printf("Informe a quantidade de alunos: ");
     scanf("%i", &qtdAlunos);
 
@@ -50,26 +50,28 @@ int main(){
         for (int n = 1; n <= qtdNotas; n++){
             do{
                 printf("Informe informe a Nota #%i: [min: 0 | max: 10] ", n);
-                scanf("%s", &Turma[i].notas[n]);
+                scanf("%f", &Turma[i].notas[n]);
             }while(Turma[i].notas[n] < 0 or Turma[i].notas[n] > 10);
 
             Turma[i].notas[0] += Turma[i].notas[n];
+            printf("nota: %0.2f |total: %0.2f \n",Turma[i].notas[n], Turma[i].notas[0]);
         }
         
         Turma[i].notas[0] = Turma[i].notas[0] / qtdNotas;
+        printf("Media de %s: %0.2f \n", Turma[i].nome, Turma[i].notas[0]);
 
         if (Turma[i].notas[0] >= mediaAprovacao) Turma[i].aprovado = true;
 
     }    
 
-    printf("\n RELATORIO DE APROVADOS");
+    printf("\n RELATORIO DE APROVADOS\n");
 
     for(int i=1; i<= qtdAlunos; i++){
         if(Turma[i].aprovado) printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Aprovado", i, Turma[i].nome, Turma[i].notas[0]);
         else printf("\n Aluno #%i ----- Nome %s ----- Media %0.2f ----- Reprovado", i, Turma[i].nome, Turma[i].notas[0]);
     }
     
-    printf("\nFIM\n");
+    printf("\n\nFIM\n");
 
     return 0;
 }
