@@ -3,30 +3,36 @@
 2) a media das idades dos alunos aprovados/reprovados da turma
 3) gerar um relatório de alunos aprovados/reprovados na turma
 
-Tarefas para semana que vem 02/04
-1) Implementar regras de negócio para validação dos dados
-	1.1) qtdProva 1 a 10 -
-	1.2) Idade: 17 a 115 -
-	1.3) Notas 0 a 10
 */
 
 #include <stdio.h>
 #include <ctype.h>
 
-struct Aluno{
-    char nome[30];
+typedef struct{
     int idade;
-    char sexo;
     float notas[10];
+    float media;
+    char nome[30];
+    char sexo;
     bool aprovado = false;
-};
+} Aluno;
+
+void criaTurma(){
+
+}
+
+void cadastraAluno(){
+
+}
+
+
 
 int main(){
     int qtdAlunos, qtdNotas, mediaAprovacao, masc = 0, fem = 0, aprovM = 0, aprovF = 0, aprovados;
     float media, mediaTurma, mediaAprovados, notasM = 0, notasF = 0, notasMAprov = 0, notasFAprov = 0;
     char statusA[10] = "APROVADO\n", statusR[11] = "REPROVADO\n";
         
-    struct Aluno Turma[100];
+    Aluno Turma[100];
 
     printf("Informe a quantidade de alunos: ");
     scanf("%i", &qtdAlunos);
