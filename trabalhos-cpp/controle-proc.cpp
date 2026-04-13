@@ -6,9 +6,11 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 typedef struct{
+    int id;
     int idade;
     float notas[10];
     float media;
@@ -17,15 +19,32 @@ typedef struct{
     bool aprovado = false;
 } Aluno;
 
-void criaTurma(){
 
+/*
+opções do menu
+1 - Lista da turma
+2 - Estatísticas
+3 - Cadastrar Atividade
+4 - Cadastrar Notas
+5 - Cadastrar Aluno
+*/
+
+void clear(){
+    system("clear");
 }
 
-void cadastraAluno(){
-
+int menu(){
+    int opcao;
+    clear();
+    printf("\n----- CONTROLE DE TURMA -----\n");
+    printf("Escolha uma das opções abaixo:\n\n    1 - LISTAR TURMA\n    2 - ESTATISTICAS\n    3 - CADASTRAR ATIVIDADE\n    4 - CADASTRAR NOTAS\n    5 - CADASTRAR ALUNO\n");
+    printf("\nSua escolha: ");
+    return scanf("%i", &opcao);
 }
 
+void cadastroAluno(){
 
+}
 
 int main(){
     int qtdAlunos, qtdNotas, mediaAprovacao, masc = 0, fem = 0, aprovM = 0, aprovF = 0, aprovados;
@@ -33,6 +52,9 @@ int main(){
     char statusA[10] = "APROVADO\n", statusR[11] = "REPROVADO\n";
         
     Aluno Turma[100];
+
+    clear();
+    printf("\n----- CONTROLE DE TURMA -----\n");
 
     printf("Informe a quantidade de alunos: ");
     scanf("%i", &qtdAlunos);
@@ -99,6 +121,7 @@ int main(){
                 notasFAprov += media;
             }
         }
+        clear();
     }
 
     aprovados = aprovM + aprovF;
