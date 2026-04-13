@@ -1,0 +1,21 @@
+# Compilados
+*.o
+*.a
+*.so
+*.exe
+*.out
+
+# Pastas de build
+build/
+bin/
+dist/
+output/
+
+# IDEs
+.vscode/
+.idea/
+*.user
+
+# Sistema operacional
+.DS_Store        # Mac
+Thumbs.db        # Windowsteste
