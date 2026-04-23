@@ -5,6 +5,9 @@
 *.exe
 *.out
 
+# Testes
+teste*
+
 # Pastas de build
 build/
 bin/
