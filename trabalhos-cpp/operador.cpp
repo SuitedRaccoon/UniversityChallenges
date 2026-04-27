@@ -49,7 +49,9 @@ int main(){
     cout << "Divisao            (A / B): " << realA << " / " << realB << " = " << Dividir(realA, realB) << "\n";
     cout << "Resto da Divisao   (A % B): " << realA << " % " << realB << " = " << Resto(realA, realB) << "\n";
     cout << "Potencia           (A ^ B): " << realA << " ^ " << realB << " = " << Potencia(realA, realB) << "\n";
-    
+    cout << "Fatorial               A! : " << realA << " ^ " << realB << " = " << Potencia(realA, realB) << "\n";
+
+    if(IsInt(realA)) 
 
 
     return 0;
