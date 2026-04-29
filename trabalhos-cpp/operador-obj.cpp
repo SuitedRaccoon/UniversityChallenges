@@ -15,48 +15,49 @@ using namespace std;
 
 //versão de código orientado a objetos
 
-class OperadorBinario{
-    private:
-        //Atributos
-        float realA, realB;
-        int intB;
+/*
+    class Mae{
+        protected:
+            tipo atributo = valor;                          => protected funciona de forma parecida com private, mas deixa as filhas acessarem diretamente!
+        public:
+            virtual tipo ClasseBaseGenerica() const = 0;    => não implementada propositalmente para a filha implementar!
+    };                                                      => virtual -> significa que este método será sobrescrito pelas classes filhas
 
-        //Métodos Auxiliares privados => "Método de Fachada"
-        float PotenciaAux(float a, int b) const {
-            if(b < 1) return 1;
-            return a * PotenciaAux(a, b - 1);
-        }
+    class Filha : public Mae{
+        private:
+            tipo outroAtributo = valor;
+        public:
+            tipo ClasseBaseGenerica() const override{       => override == "estou sobrescrevendo"
+                |> implementação
+            }
+    };
 
-    public:
-        //Construtor
-        OperadorBinario(float a, float b) : realA(a), realB(b), intB(b - fmod(b, 1)){} // intB poderia ser truncado => intB((int)b)
+    Visibilidade| Mesma Classe  | Classes Filhas| Fora da Classe| 
+    public      | true          | true          | true          |              
+    protected   | true          | true          | false         |              
+    private     | true          | false         | false         |              
 
-        //Métodos
-        float Somar() const {return realA + realB;}
-        float Subtrair() const {return realA - realB;}
-        float Multiplicar() const {return realA * realB;}
-        float Dividir() const {return realA / realB;}
-        float Resto() const {return fmod(realA, realB);}
-        float Potencia() const {return PotenciaAux(realA, intB);}
-        void Imprimir() const {
-            cout << "\n--- OPERADORES BINARIOS DE "<< realA <<" e " << realB;
-                if(intB != realB) cout << " (Ou seu menor valor inteiro mais próximo: " << intB << ")";
-                cout << " ---\n";
-            cout << "Soma                   : " << realA << " + " << realB << " = " << Somar() << "\n";
-            cout << "Subtracao              : " << realA << " - " << realB << " = " << Subtrair() << "\n";
-            cout << "Multiplicacao          : " << realA << " x " << realB << " = " << Multiplicar() << "\n";
-            cout << "Divisao                : " << realA << " / " << realB << " = " << Dividir() << "\n";
-            cout << "Resto da Divisao       : " << realA << " % " << realB << " = " << Resto() << "\n";
-            cout << "Potencia               : " << realA << " ^ " << intB << " = " << Potencia() << "\n";
-        }
-};
+*/
 
-class OperadorUnario{
-    private:
-        //Atributos
+
+// Classe Mãe
+class Operador{ 
+    protected:
+        //Atributos base
         float real;
         int inteiro;
+    public:
+        //Construtor
+        Operador(float a) : real(a), inteiro((int) a){}
 
+        //Classe que será herdada pelas filhas
+        virtual void Imprimir() const = 0;
+};
+
+// Classe Filha
+class Unario : public Operador{
+    private:
+        //Atributos declarados na classe mãe!
         //Métodos de Fachada
         int FatorialAux(int a) const {
             if (a < 1) return 1;
@@ -69,14 +70,14 @@ class OperadorUnario{
     
     public:
         //Construtor
-        OperadorUnario(float a) : real(a), inteiro(a - fmod(a, 1)){}
+        Unario(float a) : Operador(a) {}
 
         //Métodos
         int Fatorial() const {return FatorialAux(inteiro);}
         int FatorialAditivo() const {return FatorialAditivoAux(inteiro);}
         float Sucessor() const {return real + 1;}
         float Oposto() const {return 0 - real;}
-        void Imprimir() const {
+        void Imprimir() const override {
             cout << "\n--- OPERADORES UNARIOS DE "<< real;
                 if(inteiro != real) cout << " (Ou seu menor valor inteiro mais próximo: " << inteiro << ")";
                 cout << " ---\n";
@@ -84,6 +85,42 @@ class OperadorUnario{
             cout << "   Oposto              : 0 - " << real << " = " << Oposto() << "\n";
             cout << "   Fatorial            : " << inteiro << "! " << " = " << Fatorial() << "\n";
             cout << "   Fatorial Aditivo    : " << inteiro << "? " << " = " << FatorialAditivo() << "\n";
+        }
+};
+
+class Binario : public Operador{
+    private:
+        //Atributos
+        float realB;
+        int intB;
+
+        //Métodos Auxiliares privados => "Método de Fachada"
+        float PotenciaAux(float a, int b) const {
+            if(b < 1) return 1;
+            return a * PotenciaAux(a, b - 1);
+        }
+
+    public:
+        //Construtor
+        Binario(float a, float b) : Operador(a), realB(b), intB((int) b){} // intB poderia ser truncado => intB((int)b)
+
+        //Métodos
+        float Somar() const {return real + realB;}
+        float Subtrair() const {return real - realB;}
+        float Multiplicar() const {return real * realB;}
+        float Dividir() const {return real / realB;}
+        float Resto() const {return fmod(real, realB);}
+        float Potencia() const {return PotenciaAux(real, intB);}
+        void Imprimir() const override {
+            cout << "\n--- OPERADORES BINARIOS DE "<< real <<" e " << realB;
+                if(intB != realB) cout << " (Ou seu menor valor inteiro mais próximo: " << intB << ")";
+                cout << " ---\n";
+            cout << "   Soma                   : " << real << " + " << realB << " = " << Somar() << "\n";
+            cout << "   Subtracao              : " << real << " - " << realB << " = " << Subtrair() << "\n";
+            cout << "   Multiplicacao          : " << real << " x " << realB << " = " << Multiplicar() << "\n";
+            cout << "   Divisao                : " << real << " / " << realB << " = " << Dividir() << "\n";
+            cout << "   Resto da Divisao       : " << real << " % " << realB << " = " << Resto() << "\n";
+            cout << "   Potencia               : " << real << " ^ " << intB << " = " << Potencia() << "\n";
         }
 };
 
@@ -95,12 +132,11 @@ int main(){
     cout << "Insira mais um numero real:    B = ";
     cin >> realB;
 
-    const OperadorBinario binario(realA, realB);
-    const OperadorUnario unA(realA), unB(realB);
+    const Binario binario(realA, realB);
+    const Unario unA(realA), unB(realB);
 
-    binario.Imprimir();
-    unA.Imprimir();
-    unB.Imprimir();
+    const Operador* operadores[] = {&binario, &unA, &unB};
+    for(auto operador : operadores) operador->Imprimir();
 
     return 0;
 }
