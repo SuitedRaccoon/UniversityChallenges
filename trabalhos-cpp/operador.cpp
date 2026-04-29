@@ -28,20 +28,20 @@ float Fatorial(int a){
     return a * Fatorial(a - 1);
 }
 float FatorialAditivo(int a){
-    if (a < 1) return 1;
+    if (a < 1) return 0;
     return a + Fatorial(a - 1);
 }
-bool IsInt(float a){
-    if(fmod(a, 1) == 0) return true;
-    return false; 
+bool IsNotInt(float a){
+    if(fmod(a, 1) == 0) return false;
+    return true; 
 }
 int FloatToInt(float a){return a - fmod(a, 1);}
 
 int main(){
     float realA = 3, realB = 4;
-    cout << "Insira um realero real:  A = ";
+    cout << "Insira um numero real:         A = ";
     cin >> realA;
-    cout << "Insira um realero real:  B = ";
+    cout << "Insira mais um numero real:    B = ";
     cin >> realB;
     cout << "Soma               (A + B): " << realA << " + " << realB << " = " << Somar(realA, realB) << "\n";
     cout << "Subtracao          (A - B): " << realA << " - " << realB << " = " << Subtrair(realA, realB) << "\n";
@@ -49,10 +49,22 @@ int main(){
     cout << "Divisao            (A / B): " << realA << " / " << realB << " = " << Dividir(realA, realB) << "\n";
     cout << "Resto da Divisao   (A % B): " << realA << " % " << realB << " = " << Resto(realA, realB) << "\n";
     cout << "Potencia           (A ^ B): " << realA << " ^ " << realB << " = " << Potencia(realA, realB) << "\n";
-    cout << "Fatorial               A! : " << realA << " ^ " << realB << " = " << Potencia(realA, realB) << "\n";
 
-    if(IsInt(realA)) 
+    if(IsNotInt(realA)){
+        realA = FloatToInt(realA);
+    }
+    cout << "   Fatorial          (A!) : " << realA << "! " << " = " << Fatorial(realA) << "\n";
+    cout << "   Fatorial Aditivo  (A?) : " << realA << "? " << " = " << FatorialAditivo(realA) << "\n";
+    float propA = 100 * ((Fatorial(realA) / FatorialAditivo(realA)) - 1);
+    cout << "                 Proporção: A! é " << propA << "% maior que A?\n"; 
 
+    if(IsNotInt(realB)){
+        realB = FloatToInt(realB);
+    }
+    cout << "   Fatorial          (B!) : " << realB << "! " << " = " << Fatorial(realB) << "\n";
+    cout << "   Fatorial Aditivo  (B?) : " << realB << "? " << " = " << FatorialAditivo(realB) << "\n";
+    float propB = 100 * ((Fatorial(realB) / FatorialAditivo(realB)) - 1);
+    cout << "                 Proporção: B! é " << propB << "% maior que B?\n"; 
 
     return 0;
 }
