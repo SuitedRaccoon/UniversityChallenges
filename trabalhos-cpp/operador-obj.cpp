@@ -126,16 +126,16 @@ class Binario : public Operador{
 
 int main(){
 
-    float realA = 3, realB = 4;
+    float numA = 3, numB = 4;
     cout << "Insira um numero real:         A = ";
-    cin >> realA;
+    cin >> numA;
     cout << "Insira mais um numero real:    B = ";
-    cin >> realB;
+    cin >> numB;
 
-    const Binario binario(realA, realB);
-    const Unario unA(realA), unB(realB);
+    const Binario binario(numA, numB);
+    const Unario unarioA(numA), unarioB(numB);
 
-    const Operador* operadores[] = {&binario, &unA, &unB};
+    const Operador* operadores[] = {&binario, &unarioA, &unarioB};
     for(auto operador : operadores) operador->Imprimir();
 
     return 0;
